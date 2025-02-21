@@ -1,0 +1,122 @@
+#include <iostream>
+#include <windows.h>
+#include <tlhelp32.h>
+#include <thread>
+#include <mutex>
+#include <cstring>
+
+
+std::mutex mtx; 
+int shared_variable = 0;
+
+void increment() {
+    for (int i = 0; i < 1000000; ++i) {
+        mtx.lock();
+        shared_variable++;
+        mtx.unlock();
+    }
+}
+
+void listProcesses() {
+    HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
+        std::cerr << "Process list alÄ±namadÄ±." << std::endl;
+        return;
+    }
+    PROCESSENTRY32 pe32;
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+    if (Process32First(hProcessSnap, &pe32)) {
+        int count = 1;
+        do {
+            std::cout << count++ << ". Process: " << pe32.szExeFile << " (PID: " << pe32.th32ProcessID << ")" << std::endl;
+        } while (Process32Next(hProcessSnap, &pe32));
+    }
+    CloseHandle(hProcessSnap);
+}
+
+void listThreads(DWORD pid) {
+    HANDLE hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    if (hThreadSnap == INVALID_HANDLE_VALUE) {
+        std::cerr << "Thread snapshot alÄ±namadÄ±." << std::endl;
+        return;
+    }
+    THREADENTRY32 te32;
+    te32.dwSize = sizeof(THREADENTRY32);
+    if (Thread32First(hThreadSnap, &te32)) {
+        int count = 1;
+        do {
+            if (te32.th32OwnerProcessID == pid) {
+                std::cout << count++ << ". Thread ID: " << te32.th32ThreadID << std::endl;
+            }
+        } while (Thread32Next(hThreadSnap, &te32));
+    }
+    CloseHandle(hThreadSnap);
+}
+
+void memoryTest(size_t size, const char* content) {
+    LPVOID allocatedMemory = VirtualAlloc(NULL, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (allocatedMemory == NULL) {
+        std::cerr << "Bellek ayirma baÅŸarisiz!" << std::endl;
+        return;
+    }
+    std::memcpy(allocatedMemory, content, strlen(content));
+    std::cout << "Bellek ayrÄ±ldÄ± ve veri yazÄ±ldÄ±: " << (char*)allocatedMemory << std::endl;
+    VirtualFree(allocatedMemory, 0, MEM_RELEASE);
+}
+
+void registryWrite(const char* key, const char* valueName, const char* data) {
+    HKEY hKey;
+    if (RegCreateKeyExA(HKEY_CURRENT_USER, key, 0, NULL, 0, KEY_WRITE, NULL, &hKey, NULL) == ERROR_SUCCESS) {
+        RegSetValueExA(hKey, valueName, 0, REG_SZ, (const BYTE*)data, (DWORD)strlen(data) + 1);
+        std::cout << "Registry yazÄ±ldÄ±: " << key << "\\" << valueName << " = " << data << std::endl;
+        RegCloseKey(hKey);
+    } else {
+        std::cerr << "Registry yazma baÅŸarÄ±sÄ±z!" << std::endl;
+    }
+}
+
+int main() {
+    int choice;
+    DWORD pid;
+    
+    while (true) {
+        std::cout << "\nMonitoring Menusu:" << std::endl;
+        std::cout << "1. Calisan Process Listesi" << std::endl;
+        std::cout << "2. Thread Listesi (PID giriniz)" << std::endl;
+        std::cout << "3. Bellek Testi" << std::endl;
+        std::cout << "4. Registry Yazma Testi" << std::endl;
+        std::cout << "5. Thread Guvenligi Testi" << std::endl;
+        std::cout << "6. cikis" << std::endl;
+        std::cout << "Seciminizi yapin: ";
+        std::cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                listProcesses();
+                break;
+            case 2:
+                std::cout << "PID giriniz: ";
+                std::cin >> pid;
+                listThreads(pid);
+                break;
+            case 3:
+                memoryTest(1024, "Monitoring Test Data");
+                break;
+            case 4:
+                registryWrite("Software\\MyMonitor", "TestValue", "Hello Registry!");
+                break;
+            case 5: {
+                std::thread t1(increment);
+                std::thread t2(increment);
+                t1.join();
+                t2.join();
+                std::cout << "Paylasilan deÄŸiÅŸkenin son degeri: " << shared_variable << std::endl;
+                break;
+            }
+            case 6:
+                return 0;
+            default:
+                std::cout << "GeÃ§ersiz seÃ§im!" << std::endl;
+        }
+    }
+}
